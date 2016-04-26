@@ -5,6 +5,20 @@
 <title>已续 {{ .Life }} 秒</title>
 </head>
 <body>
-<h1>已续 {{ .Life }} 秒。</h1>
+<h1>已续 <span id="life">{{ .Life }}</span> 秒。</h1>
+<div>当前 <span id="online">{{ .Online }}</span> 人正在续命。</div>
+<script language="javascript">
+setInterval(function heartbeat() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "+1s/beat", true);
+    xhr.onload = function heartbeatOnload() {
+        var resp = JSON.parse(xhr.responseText);
+        document.title = "已续 " + resp["life"] + " 秒。";
+        document.getElementById("life").innerText = resp["life"];
+        document.getElementById("online").innerText = resp["online"];
+    }
+    xhr.send();
+}, 1000);
+</script>
 </body>
 </html>
