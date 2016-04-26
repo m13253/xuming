@@ -11,26 +11,41 @@
 <hr />
 <div style="font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;STFangsong&quot;, SimFang, serif">「<span id="quote">{{ .Quote }}</span>」&emsp;&emsp;——一位长者</div>
 <script language="javascript">
-setInterval(function heartbeat() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "+1s/beat", true);
-    xhr.onload = function heartbeatOnload() {
-        var resp = JSON.parse(xhr.responseText);
-        document.title = "已续 " + resp["life"] + " 秒。";
-        document.getElementById("life").innerText = resp["life"];
-        document.getElementById("online").innerText = resp["online"];
-    }
-    xhr.send();
-}, 1000);
-setInterval(function heartbeat() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "+1s/quote", true);
-    xhr.onload = function heartbeatOnload() {
-        var resp = xhr.responseText;
-        document.getElementById("quote").innerText = resp;
-    }
-    xhr.send();
-}, 9700);
+(function () {
+    var foreground = true;
+    setInterval(function heartbeat() {
+        if(foreground) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "+1s/beat", true);
+            xhr.timeout = 3000;
+            xhr.onload = function heartbeatOnload() {
+                var resp = JSON.parse(xhr.responseText);
+                document.title = "已续 " + resp["life"] + " 秒。";
+                document.getElementById("life").innerText = resp["life"];
+                document.getElementById("online").innerText = resp["online"];
+            }
+            xhr.send();
+        }
+    }, 1000);
+    setInterval(function getQuote() {
+        if(foreground) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "+1s/quote", true);
+            xhr.timeout = 20000;
+            xhr.onload = function heartbeatOnload() {
+                var resp = xhr.responseText;
+                document.getElementById("quote").innerText = resp;
+            }
+            xhr.send();
+        }
+    }, 9700);
+    addEventListener("focus", function () {
+        foreground = true;
+    });
+    addEventListener("blur", function () {
+        foreground = false;
+    });
+})();
 </script>
 </body>
 </html>
