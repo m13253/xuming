@@ -47,7 +47,7 @@ func plus1sHeartbeatHandler(w http.ResponseWriter, r *http.Request) {
 		current = atomic.LoadUint64(&life)
 	}
 	w.Header().Set("Content-Type", "application/json; encoding=UTF-8")
-	fmt.Fprintf(w, "{\"life\":%d,\"online\":%d}", &current, atomic.LoadInt64(&online))
+	fmt.Fprintf(w, "{\"life\":%d,\"online\":%d}", current, atomic.LoadInt64(&online))
 }
 
 func quoteHandler(w http.ResponseWriter, r *http.Request) {
