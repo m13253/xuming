@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strings"
 	"sync/atomic"
 	"time"
 )
@@ -27,22 +28,26 @@ var online int64
 var tmpl, _ = template.ParseFiles("template/index.html")
 
 func plus1sHandler(w http.ResponseWriter, r *http.Request) {
-	current := atomic.AddUint64(&life, 1)
 	tmpl.Execute(w, struct {
 		Life uint64
 		Online int64
 		Quote string
 	} {
-		Life: current,
-		Online: online,
+		Life: atomic.LoadUint64(&life),
+		Online: atomic.LoadInt64(&online),
 		Quote: getQuote(),
 	})
 }
 
 func plus1sHeartbeatHandler(w http.ResponseWriter, r *http.Request) {
-	current := atomic.AddUint64(&life, 1)
+	var current uint64
+	if strings.HasSuffix(w.Header().Get("Referer"), "/+1s") {
+		current = atomic.AddUint64(&life, 1)
+	} else {
+		current = atomic.LoadUint64(&life)
+	}
 	w.Header().Set("Content-Type", "application/json; encoding=UTF-8")
-	fmt.Fprintf(w, "{\"life\":%d,\"online\":%d}", current, online)
+	fmt.Fprintf(w, "{\"life\":%d,\"online\":%d}", &current, atomic.LoadInt64(&online))
 }
 
 func quoteHandler(w http.ResponseWriter, r *http.Request) {
