@@ -19,7 +19,7 @@ func prepareQuotes() {
 }
 
 func getQuote() string {
-	return quotes[rand.Intn(len(quotes))]
+	return quotes[random.Intn(len(quotes))]
 }
 
 // bytes(map(lambda x: x ^ 1, s.encode())).decode()
