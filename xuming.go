@@ -41,7 +41,7 @@ func plus1sHandler(w http.ResponseWriter, r *http.Request) {
 
 func plus1sHeartbeatHandler(w http.ResponseWriter, r *http.Request) {
 	var current uint64
-	if strings.HasSuffix(w.Header().Get("Referer"), "/+1s") {
+	if strings.HasSuffix(r.Header.Get("Referer"), "/+1s") {
 		current = atomic.AddUint64(&life, 1)
 	} else {
 		current = atomic.LoadUint64(&life)
