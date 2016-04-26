@@ -13,6 +13,7 @@
 <script language="javascript">
 (function () {
     var foreground = true;
+    var online = 0;
     function heartbeat() {
         if(foreground) {
             var xhr = new XMLHttpRequest();
@@ -22,7 +23,8 @@
                 var resp = JSON.parse(xhr.responseText);
                 document.title = "已续 " + resp["life"] + " 秒。";
                 document.getElementById("life").innerText = resp["life"];
-                document.getElementById("online").innerText = resp["online"];
+                online = resp["online"];
+                document.getElementById("online").innerText = online;
             }
             xhr.send();
         }
@@ -44,6 +46,10 @@
     });
     addEventListener("blur", function () {
         foreground = false;
+        if(online > 0) {
+            online -= 1;
+            document.getElementById("online").innerText = online;
+        }
     });
     setInterval(heartbeat, 1000);
     setInterval(getQuote, 9700);
