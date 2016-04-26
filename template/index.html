@@ -13,7 +13,7 @@
 <script language="javascript">
 (function () {
     var foreground = true;
-    setInterval(function heartbeat() {
+    function heartbeat() {
         if(foreground) {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "+1s/beat", true);
@@ -26,8 +26,8 @@
             }
             xhr.send();
         }
-    }, 1000);
-    setInterval(function getQuote() {
+    }
+    function getQuote() {
         if(foreground) {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "+1s/quote", true);
@@ -38,13 +38,16 @@
             }
             xhr.send();
         }
-    }, 9700);
+    }
     addEventListener("focus", function () {
         foreground = true;
     });
     addEventListener("blur", function () {
         foreground = false;
     });
+    setInterval(heartbeat, 1000);
+    setInterval(getQuote, 9700);
+    getQuote();
 })();
 </script>
 </body>
