@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-cn">
 <head>
 <meta charset="UTF-8" />
 <title>已续 {{ .Life }} 秒</title>
 </head>
-<body>
+<body style="font-family: -apple-system, &quot;Source Han Sans SC&quot;, &quot;Noto Sans CJK SC&quot;, &quot;Microsoft Yahei&quot;, sans-serif">
 <h1>已续 <span id="life">{{ .Life }}</span> 秒。</h1>
-<div>当前 <span id="online">{{ .Online }}</span> 人正在续命。</div>
+<div>当前 <span id="online">{{ .Online }}</span> 人正在为长者续命。</div>
+<hr />
+<div style="font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;STFangsong&quot;, SimFang, serif">「<span id="quote">{{ .Quote }}</span>」</div>
 <script language="javascript">
 setInterval(function heartbeat() {
     var xhr = new XMLHttpRequest();
@@ -19,6 +21,15 @@ setInterval(function heartbeat() {
     }
     xhr.send();
 }, 1000);
+setInterval(function heartbeat() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "+1s/quote", true);
+    xhr.onload = function heartbeatOnload() {
+        var resp = xhr.responseText;
+        document.getElementById("quote").innerText = resp;
+    }
+    xhr.send();
+}, 4700);
 </script>
 </body>
 </html>
