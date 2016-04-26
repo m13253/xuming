@@ -46,10 +46,9 @@
     });
     addEventListener("blur", function () {
         foreground = false;
-        if(online > 0) {
+        if(online > 0)
             online -= 1;
-            document.getElementById("online").innerText = online;
-        }
+        document.getElementById("online").innerText = online;
     });
     setInterval(heartbeat, 1000);
     setInterval(getQuote, 9700);
