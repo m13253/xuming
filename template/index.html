@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <title>已续 {{ .Life }} 秒</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body style="font-family: -apple-system, &quot;Source Han Sans SC&quot;, &quot;Noto Sans CJK SC&quot;, &quot;Microsoft Yahei&quot;, sans-serif">
 <h1>已续 <span id="life">{{ .Life }}</span> 秒。</h1>
 <div>当前 <span id="online">{{ .Online }}</span> 人正在为长者续命。</div>
 <hr />
-<div style="font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;STFangsong&quot;, SimFang, serif">「<span id="quote">{{ .Quote }}</span>」</div>
+<div style="font-family: Palatino, &quot;Palatino Linotype&quot;, &quot;STFangsong&quot;, SimFang, serif">「<span id="quote">{{ .Quote }}</span>」&emsp;&emsp;——一位长者</div>
 <script language="javascript">
 setInterval(function heartbeat() {
     var xhr = new XMLHttpRequest();
