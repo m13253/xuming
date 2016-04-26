@@ -2,9 +2,11 @@ package main
 
 import (
 	"math/rand"
+	"sync"
 	"time"
 )
 
+var randmutex sync.Mutex
 var random = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func prepareQuotes() {
@@ -18,8 +20,11 @@ func prepareQuotes() {
 	}
 }
 
-func getQuote() string {
-	return quotes[random.Intn(len(quotes))]
+func getQuote() (res string) {
+	randmutex.Lock()
+	res = quotes[random.Intn(len(quotes))]
+	randmutex.Unlock()
+	return
 }
 
 // bytes(map(lambda x: x ^ 1, s.encode())).decode()
