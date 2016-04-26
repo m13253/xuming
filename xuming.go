@@ -15,7 +15,7 @@ func main() {
 	http.HandleFunc("/+1s", plus1sHandler)
 	http.HandleFunc("/+1s/beat", plus1sHeartbeatHandler)
 	http.HandleFunc("/+1s/quote", quoteHandler)
-	log.Fatal(http.ListenAndServe(":8080",  nil))
+	log.Fatal(http.ListenAndServe("localhost:8080",  nil))
 }
 
 func redirectHandler(w http.ResponseWriter, r *http.Request) {
